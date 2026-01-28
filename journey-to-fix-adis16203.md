@@ -26,7 +26,7 @@ ls ./Documentation/devicetree/bindings/iio/accel/adi,adis162*
 I found inside adi,adis16201.yaml both 16201 and 16209 so maybe all we need is to add 16203 if they're
 very similar.
 
-but I found after diggin in the linux:
+but I found after digging in the linux lore:
 https://lore.kernel.org/linux-staging/20250308144239.0442f1a7@jic23-huawei/T/#t
 https://lore.kernel.org/linux-iio/20230124094450.0000272b@Huawei.com/
 
@@ -47,9 +47,18 @@ https://www.analog.com/media/en/technical-documentation/data-sheets/ADIS16201.pd
 https://www.analog.com/media/en/technical-documentation/data-sheets/ADIS16203.pdf
 
 with all of that being in the way I have a plan:
-- compare the datasheets.
+- compare datasheets.
 - learn from both drivers adis16203 in staging and adis16201.
 - use of https://www.kernel.org/doc/html/v6.1/driver-api/iio/core.html
 - after I lose the fog I have because of my lack of understanding of the API I'll do a RFC
 - Adjust the plan accordinly.
+
+# 1- compare adis16201 and adis16203 datasheets:
+
+# 2- learn from adis16201 and adis16203 drivers:
+
+# 3- RFC:
+
+# 4- Wait and Adjust:
+
 
