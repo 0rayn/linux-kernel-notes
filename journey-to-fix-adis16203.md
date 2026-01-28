@@ -54,6 +54,19 @@ with all of that being in the way I have a plan:
 - Adjust the plan accordinly.
 
 # 1- compare adis16201 and adis16203 datasheets:
+  They are too similar in a lot of stuff so I'll just note
+  things that will effect the code.
+## similarities:
+- Both uses SPI protocol
+- The SPI interface provides access to:
+  - temperature
+  - power supply
+  - one auxiliary analog input
+- 
+## differences:
+- ADIS16201: access to measurements for dual-axis linear acceleration, dual-
+axis linear inclination angle via SPI.
+- ADIS16203: 360° linear inclination angles, ±180° linear incline angles via SPI.
 
 # 2- learn from adis16201 and adis16203 drivers:
 
