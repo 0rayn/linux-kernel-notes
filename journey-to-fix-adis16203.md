@@ -49,7 +49,7 @@ https://www.analog.com/media/en/technical-documentation/data-sheets/ADIS16203.pd
 with all of that being in the way I have a plan:
 - compare datasheets.
 - learn from both drivers adis16203 in staging and adis16201.
-- use of https://www.kernel.org/doc/html/v6.1/driver-api/iio/core.html
+- use of https://www.kernel.org/doc/html/v6.9/driver-api/iio/core.html
 - after I lose the fog I have because of my lack of understanding of the API I'll do a RFC
 - Adjust the plan accordinly.
 

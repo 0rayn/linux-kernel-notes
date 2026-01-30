@@ -133,3 +133,5 @@ and one shared sysfs file for sampling frequency:
   /sys/bus/iio/iio:deviceX/sampling_frequency.
 
 
+
+
