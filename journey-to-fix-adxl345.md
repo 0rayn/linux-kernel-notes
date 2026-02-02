@@ -22,7 +22,7 @@ resources and can plan the V2.
     the driver compliant with the ABI.
 
 ---------------- Resources and mental notes -------------------- 
--> Why shose m/s^2 ? 
+-> Why chose m/s^2 ? 
     => The IIO subsystem mandates SI units for consistency so all userspace
     applications would know how to interact with the driver even without
     consulting the docs.
@@ -89,3 +89,68 @@ value without adhearing to the ABI after I do that ?
     if you're only interested by the signal intensity you can use the file
     normally, but if you want the absolute measured value you'll multiply
     that value by the value in in_accel_scale.
+
+
+============================= Submited V2 =========================================
+After the submition of the V2 patch I got some feedbacks:
+1- Feedback from David Lechner: "I think this could be worded better. The
+  enum member isn't really 'missing'... Are there actually any users of
+  these attributes...?"
+  => so I have to make sure to bring examples of drivers using this event
+  scaling but atchieves that in a "hacky way".
+  ```
+```
+
+My understanding is that making the attributes in the sysfs manually using
+the IIO_DEVICE_ATTR is a hacky way when we have the IIO core making that
+for us automaticaly and without the need to be worring if we do a typo in
+the file name we're exposing the attribute through.
+
+https://docs.kernel.org/driver-api/driver-model/device.html
+
+While searching for how the other drivers do the scaling without having that
+enum member I used grep and decided to go with the drivers/iio/accel/mma8452.c
+as an example
+
+```sh
+```
+```sh
+grep -rn "IIO_DEVICE_ATTR" drivers/iio/ | grep -iE "scale"
+```
+
+```
+```C
+
+/*
+ * Threshold is configured in fixed 8G/127 steps regardless of
+ * currently selected scale for measurement.
+ */
+static IIO_CONST_ATTR_NAMED(accel_transient_scale, in_accel_scale, "0.617742");
+```
+
+so the driver had to expose a scale for the transient detection
+("transient" refers to a specific type of motion detection that looks for rapid,
+short-term changes in acceleration rather than a sustained level of force.)
+
+and because there is no SCALE bit and the value is constant he had to 
+expose the value manually using IIO_CONST_ATTR_NAMED.
+
+my take on adding the IIO_EV_INFO_SCALE is to have a standard way for drivers to
+expose scale of their events without having to make their own boilerplate each time
+making both the process of writing drivers and editing them more straight forward
+and standarazed.
+
+I did reply to David lechner with this and he did reply that we better wait Jonathan
+to see if this is the right action to make, cause if only 2 drivers uses that no need
+to change the IIO core.
+
+I do believe this is a mistake from my side next time and now I have to look more and
+check if any other drivers do this. The more evidence I have the better. I didn't take
+enough time to search for more examples of this.
+
+also I did thank both David and randy for the other comments and I must do them in the V3
+
+for now I'll take this time as an apportunity to learn more about the other drivers and
+the drivers structure :) I'm new to this overall. But happy with the progress so far.
+
+
