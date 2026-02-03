@@ -153,4 +153,202 @@ also I did thank both David and randy for the other comments and I must do them 
 for now I'll take this time as an apportunity to learn more about the other drivers and
 the drivers structure :) I'm new to this overall. But happy with the progress so far.
 
+-> Waiting for Jonathan's review I'll start looking for more drivers that do the same 'hacks'
+for 2 reasons: R1 - Jonathan may ask me to research more; R2 - if I heard nothing more I'll use
+this as a ping with more details.
 
+Examples of the hacks around not having the IIO_EV_INFO_SCALE in the enum iio_event_info:
+1- our beloved mma8452 I already used it in my last reply to David
+```C
+static IIO_CONST_ATTR_NAMED(accel_transient_scale, in_accel_scale, "0.617742");
+```
+2- 
+
+
+
+
+
+-------------------- I want to hightlight these while I'm on it ---------------------
+```sh
+grep -rn "\.event_attrs" drivers/iio/
+drivers/iio/adc/ad4062.c:1311:	.event_attrs = &ad4062_event_attribute_group,
+drivers/iio/adc/max1363.c:1046:	.event_attrs = &max1363_event_attribute_group,
+drivers/iio/adc/ad799x.c:555:	.event_attrs = &ad799x_event_attrs_group,
+drivers/iio/accel/bma400_core.c:1599:	.event_attrs = &bma400_event_attribute_group,
+drivers/iio/accel/mma8452.c:1438:	.event_attrs = &mma8452_event_attribute_group,
+drivers/iio/accel/adxl380.c:1660:	.event_attrs = &adxl380_event_attribute_group,
+drivers/iio/imu/bmi270/bmi270_core.c:1263:	.event_attrs = &bmi270_event_attribute_group,
+drivers/iio/imu/bmi323/bmi323_core.c:1822:	.event_attrs = &bmi323_event_attribute_group,
+drivers/iio/dac/ad5504.c:232:	.event_attrs = &ad5504_ev_attribute_group,
+drivers/iio/resolver/ad2s1210.c:1353:	.event_attrs = &ad2s1210_event_attribute_group,
+drivers/iio/cdc/ad7150.c:527:	.event_attrs = &ad7150_event_attribute_group,
+drivers/iio/light/apds9306.c:1151:	.event_attrs = &apds9306_event_attr_group,
+drivers/iio/light/tsl2591.c:1004:	.event_attrs = &tsl2591_event_attribute_group,
+drivers/iio/light/lm3533-als.c:825:	.event_attrs	= &lm3533_als_event_attribute_group,
+drivers/iio/light/veml6030.c:846:	.event_attrs = &veml6030_event_attr_group,
+```
+
+while checking on the scale attribute I went to check everything else in an attempt to see
+if other drivers are suffering from it or from something else entirely.
+
+```C
+static struct attribute *bmi323_event_attributes[] = {
+	&iio_const_attr_in_accel_gesture_tap_value_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_tap_reset_timeout_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_doubletap_tap2_min_delay_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_tap_wait_dur_available.dev_attr.attr,
+	&iio_dev_attr_in_accel_gesture_tap_wait_timeout.dev_attr.attr,
+	&iio_dev_attr_in_accel_gesture_tap_wait_dur.dev_attr.attr,
+	&iio_const_attr_in_accel_mag_value_available.dev_attr.attr,
+	&iio_const_attr_in_accel_mag_period_available.dev_attr.attr,
+	&iio_const_attr_in_accel_mag_hysteresis_available.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *bmi270_event_attributes[] = {
+	&iio_dev_attr_in_accel_value_available.dev_attr.attr,
+	&iio_const_attr_in_accel_period_available.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *ad4062_event_attributes[] = {
+	&iio_dev_attr_sampling_frequency.dev_attr.attr,
+	&iio_dev_attr_sampling_frequency_available.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *max1363_event_attributes[] = {
+	&iio_dev_attr_sampling_frequency.dev_attr.attr,
+	&iio_const_attr_sampling_frequency_available.dev_attr.attr,
+	NULL,
+};
+```
+
+```C
+static struct attribute *ad799x_event_attributes[] = {
+	&iio_dev_attr_sampling_frequency.dev_attr.attr,
+	&iio_const_attr_sampling_frequency_available.dev_attr.attr,
+	NULL,
+};
+```
+
+```C
+static struct attribute *bma400_event_attributes[] = {
+	&iio_const_attr_in_accel_gesture_tap_value_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_tap_reset_timeout_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_tap_maxtomin_time_available.dev_attr.attr,
+	&iio_const_attr_in_accel_gesture_doubletap_tap2_min_delay_available.dev_attr.attr,
+	&iio_dev_attr_in_accel_gesture_tap_maxtomin_time.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *adxl380_event_attributes[] = {
+	&iio_dev_attr_in_accel_gesture_tap_maxtomin_time.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *ad5504_ev_attributes[] = {
+	&iio_const_attr_temp0_thresh_rising_value.dev_attr.attr,
+	&iio_const_attr_temp0_thresh_rising_en.dev_attr.attr,
+	NULL,
+};
+```
+
+```C
+
+static struct attribute *ad2s1210_event_attributes[] = {
+	&iio_const_attr_in_phase0_mag_rising_value_available.dev_attr.attr,
+	&iio_const_attr_in_altvoltage0_thresh_falling_value_available.dev_attr.attr,
+	&iio_const_attr_in_altvoltage0_thresh_rising_value_available.dev_attr.attr,
+	&iio_const_attr_in_altvoltage0_mag_rising_value_available.dev_attr.attr,
+	&iio_dev_attr_in_altvoltage0_mag_rising_reset_max.dev_attr.attr,
+	&iio_const_attr_in_altvoltage0_mag_rising_reset_max_available.dev_attr.attr,
+	&iio_dev_attr_in_altvoltage0_mag_rising_reset_min.dev_attr.attr,
+	&iio_const_attr_in_altvoltage0_mag_rising_reset_min_available.dev_attr.attr,
+	&iio_dev_attr_in_angl1_thresh_rising_value_available.dev_attr.attr,
+	&iio_dev_attr_in_angl1_thresh_rising_hysteresis_available.dev_attr.attr,
+	NULL,
+};
+```
+
+```C
+static struct attribute *ad7150_event_attributes[] = {
+	&iio_const_attr_in_capacitance_thresh_adaptive_timeout_available
+	.dev_attr.attr,
+	NULL,
+};
+```
+
+```C
+static struct attribute *apds9306_event_attributes[] = {
+	&iio_const_attr_thresh_either_period_available.dev_attr.attr,
+	&iio_const_attr_thresh_adaptive_either_values_available.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+static struct attribute *tsl2591_event_attrs_ctrl[] = {
+	&iio_dev_attr_tsl2591_in_illuminance_period_available.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+
+static struct attribute *lm3533_als_event_attributes[] = {
+	&dev_attr_in_illuminance0_thresh_either_en.attr,
+	&lm3533_als_attr_in_illuminance0_thresh0_falling_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh0_hysteresis.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh0_raising_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh1_falling_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh1_hysteresis.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh1_raising_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh2_falling_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh2_hysteresis.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh2_raising_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh3_falling_value.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh3_hysteresis.dev_attr.attr,
+	&lm3533_als_attr_in_illuminance0_thresh3_raising_value.dev_attr.attr,
+	NULL
+};
+```
+
+```C
+
+static struct attribute *veml6030_event_attributes[] = {
+	&iio_dev_attr_in_illuminance_period_available.dev_attr.attr,
+	NULL
+};
+```
+
+
+29 -> Available ? and I couldn't find it in the enum
+```
+BMI323: 7 entries
+AD2S1210: 7 entries
+BMA400: 4 entries
+BMI270: 1 entry
+AD4062: 1 entry
+MAX1363: 1 entry
+AD799x: 1 entry
+AD7150: 1 entry
+APDS9306: 1 entry
+```
+
+Well looks like we have a bigger problem than the scale bitmask hhhhhhh.
+This won't serve as a ping I think I must send an RFC about it :).
+1- What's the year these drivers were written in ? I want to know how long this been going,
+and whither or not expect new drivers to have this in the events.
+2- In the RFC I should point to these data points and entries. And ask about implementing this.
+3- If it got accepted I should be ready to fix them all to use that bit hhhhhhh a lot of work
