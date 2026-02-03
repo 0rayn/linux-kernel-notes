@@ -335,20 +335,21 @@ static struct attribute *veml6030_event_attributes[] = {
 
 29 -> Available ? and I couldn't find it in the enum
 ```
-BMI323: 7 entries
-AD2S1210: 7 entries
-BMA400: 4 entries
-BMI270: 1 entry
-AD4062: 1 entry
-MAX1363: 1 entry
-AD799x: 1 entry
-AD7150: 1 entry
-APDS9306: 1 entry
+BMI323: 7 entries       => 2023
+AD2S1210: 7 entries     => 1st copyright 2010 analogdevices; 2nd copyright baylibre 2023
+BMA400: 4 entries       => 2019
+BMI270: 1 entry         =>
+AD4062: 1 entry         => 2025
+MAX1363: 1 entry        => 2000 -> 2002-2004 -> 2008-2010
+AD799x: 1 entry         => 2000 -> 2002-2004 -> 2008-2010 -> 2010-2011
+AD7150: 1 entry         => 2010-2011 -> 2021
+APDS9306: 1 entry       => 2024
 ```
 
 Well looks like we have a bigger problem than the scale bitmask hhhhhhh.
 This won't serve as a ping I think I must send an RFC about it :).
 1- What's the year these drivers were written in ? I want to know how long this been going,
 and whither or not expect new drivers to have this in the events.
+-> let's add dates for each driver;
 2- In the RFC I should point to these data points and entries. And ask about implementing this.
 3- If it got accepted I should be ready to fix them all to use that bit hhhhhhh a lot of work
