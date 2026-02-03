@@ -36,7 +36,7 @@
 #### What to do at probe:
   // TODO: What's probing ??
     => probing is the proccess of matching the drivers with the devices (detected via the device
-  teee or ACPI).
+  tree or APCI).
     == How it works:
       1- registration: when the IIO Module loads it tell the kernel "I'm a driver for a
     sensor named MPU-6050".
@@ -50,6 +50,9 @@
 1- Call iio_device_alloc(), which allocates memory for an IIO device.
 2- Initialize IIO device fields with driver specific information (e.g. device name, device channels).
 3- Call iio_device_register(), this registers the device with the IIO core. After this call the device is ready to accept requests from user space applications.
+1.1 & 1.3 edit: I found that it's better to use the devm_ versions of the functions devm_iio_device_alloc and devm_iio_device_register so the kernel handles the remove steps for you
+automatically if the probe fails or the driver is detached.
+
 #### What to do at remove:
 1- iio_device_unregister(), unregister the device from the IIO core.
 2- iio_device_free(), free the memory allocated for the IIO device.
@@ -132,6 +135,17 @@ one file for processed data:
 and one shared sysfs file for sampling frequency:
   /sys/bus/iio/iio:deviceX/sampling_frequency.
 
+### The extended channel info attribute
 
+```C
+struct iio_chan_spec_ext_info {
+    const char *name;
+    enum iio_shared_by shared;
+    ssize_t (*read)(struct iio_dev *, uintptr_t private, struct iio_chan_spec const *, char *buf);
+    ssize_t (*write)(struct iio_dev *, uintptr_t private, struct iio_chan_spec const *, const char *buf, size_t len);
+    uintptr_t private;
+};
+```
 
+this is used when the standard IIO ABI doesn't have a specific attribute (like a "power_down_mode" or a specialized filter setting).
 
