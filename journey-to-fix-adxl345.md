@@ -138,7 +138,7 @@ expose the value manually using IIO_CONST_ATTR_NAMED.
 my take on adding the IIO_EV_INFO_SCALE is to have a standard way for drivers to
 expose scale of their events without having to make their own boilerplate each time
 making both the process of writing drivers and editing them more straight forward
-and standarazed.
+and standardized.
 
 I did reply to David lechner with this and he did reply that we better wait Jonathan
 to see if this is the right action to make, cause if only 2 drivers uses that no need
@@ -163,7 +163,6 @@ Examples of the hacks around not having the IIO_EV_INFO_SCALE in the enum iio_ev
 static IIO_CONST_ATTR_NAMED(accel_transient_scale, in_accel_scale, "0.617742");
 ```
 2- 
-
 
 
 
@@ -353,3 +352,58 @@ and whither or not expect new drivers to have this in the events.
 -> let's add dates for each driver;
 2- In the RFC I should point to these data points and entries. And ask about implementing this.
 3- If it got accepted I should be ready to fix them all to use that bit hhhhhhh a lot of work
+
+
+hhhh yesterday trying to sleep I got an idea is that because this '_available' was made by each
+driver I think it won't have the same structure of output also. Which makes userspace programs
+parsing a nightmare if they need this info. So let's see if this is really the case.
+
+
+
+
+```C
+// max1363
+static IIO_CONST_ATTR(sampling_frequency_available,
+		"133000 665000 33300 16600 8300 4200 2000 1000");
+// ad799x
+static IIO_CONST_ATTR_SAMP_FREQ_AVAIL("15625 7812 3906 1953 976 488 244 0");
+// ad4062
+static IIO_DEVICE_ATTR_RO(sampling_frequency_available, 0);
+// ad2s1210
+#define THRESHOLD_RANGE_STR "[0 38 4826]"
+static IIO_CONST_ATTR(in_phase0_mag_rising_value_available,
+		      __stringify(PHASE_44_DEG_TO_RAD_INT) "."
+		      __stringify(PHASE_44_DEG_TO_RAD_MICRO) " "
+		      __stringify(PHASE_360_DEG_TO_RAD_INT) "."
+		      __stringify(PHASE_360_DEG_TO_RAD_MICRO));
+static IIO_CONST_ATTR(in_altvoltage0_thresh_falling_value_available,
+		      THRESHOLD_RANGE_STR);
+// bmi323
+static IIO_CONST_ATTR(in_accel_gesture_tap_value_available, "[0.0 0.002 1.99]");
+// bmi270
+static IIO_CONST_ATTR(in_accel_period_available, "[0.0 0.02 162.0]");
+// ad7150
+static IIO_CONST_ATTR(in_capacitance_thresh_adaptive_timeout_available,
+		      "[0 0.01 0.15]");
+// apds9306
+static IIO_CONST_ATTR(thresh_either_period_available, "[0 1 15]");
+static IIO_CONST_ATTR(thresh_adaptive_either_values_available, "[0 1 7]");
+```
+
+And yep I was right assuming that, this shows an inconsistency of formatting styles:
+- Gategory 1:
+=> provides set of available options:
+  -> max1363 and ad799x manually type "133000 665000"
+  -> ad2s1210 uses __stringify to glue macros together into a list
+=> with no shared logic, drivers may use different methods and __stringify is hard to
+  read and maintain.
+- Gategory 2:
+=> provides a continuous set of values defined by a [min step max]:
+  -> ad2s1210 uses integer ranges "[0 38 4826]".
+  -> ad7150 uses mixed formatting "[0 0.01 0.15]"
+  -> dmi323 and bmi270 uses explicit floating-point: "[0.0 0.02 162.0]"
+=> formatting drift. Even though all these drivers want to show a bracketed range,
+  they don't agree on how to format the numbers.
+
+By providing a core-level mask, we move from 5 different manual implementations to
+2 standardized logical types (List and Range), both handled by the existing iio_format_avail_list() logic.
