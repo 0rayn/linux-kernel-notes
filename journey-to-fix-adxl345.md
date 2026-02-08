@@ -359,8 +359,6 @@ driver I think it won't have the same structure of output also. Which makes user
 parsing a nightmare if they need this info. So let's see if this is really the case.
 
 
-
-
 ```C
 // max1363
 static IIO_CONST_ATTR(sampling_frequency_available,
@@ -407,3 +405,8 @@ And yep I was right assuming that, this shows an inconsistency of formatting sty
 
 By providing a core-level mask, we move from 5 different manual implementations to
 2 standardized logical types (List and Range), both handled by the existing iio_format_avail_list() logic.
+
+
+====> Jonathan Cameron answered and he approved the addition of IIO_EV_INFO_SCALE to the enum, Yaaaay hhhhhhh
+which means that the addition of available will be easier to argue for cause more drivers needs it. I'll wait
+until hopefully my V3 patches get approved.
