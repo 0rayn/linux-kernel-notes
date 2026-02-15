@@ -83,3 +83,35 @@ include dedicated cleanup commits for the headers and the
 "Include What You Use" (IWYU) principles Andy mentioned. It’s a lot of
 rework, but seeing how fast these senior maintainers reply when the logic
 is sound is incredibly encouraging.
+
+# adxl345 v3 2026-02-14
+
+- Finally got a reply from Jonathan with a "Nice series thanks!",
+and applied the series to the testing branch of iio.git.
+
+- However, almost simultaneously, David Lechner, Andy Shevchenko,
+and Randy Dunlap posted reviews. They didn't find logic errors, but they
+found important stylistic nits:
+  1. David noted that `BIT(IIO_EV_INFO_SCALE)` should be ordered
+  consistently after `VALUE` in the driver and that I missed documenting
+  `in_accel_mag_adaptive_scale`.
+  2. Andy and Randy caught a subtle whitespace error where I accidentally
+  replaced a space with a tab on a line I shouldn't have touched.
+
+# adxl345 v3 2026-02-15
+
+- The "race condition" resolved. Jonathan Cameron saw the incoming
+feedback after applying the patches and wrote: "Ah. Raced with other
+feedback. Dropped again for now."
+
+- This means the code was removed from the testing branch to allow me to
+address the reviewers' comments. I took it as an opportunity to make a
+cleaner version.
+
+- I replied to the thread confirming I understood the situation and
+thanked the reviewers for their detailed feedback. I am now preparing V4
+to fix the bitmask ordering, the whitespace consistency, and the
+documentation.
+
+- Well even after checking the patches over and over I just didn't see
+those mistakes. IT's great to learn from them.
