@@ -114,4 +114,41 @@ to fix the bitmask ordering, the whitespace consistency, and the
 documentation.
 
 - Well even after checking the patches over and over I just didn't see
-those mistakes. IT's great to learn from them.
+those mistakes. It's great to learn from them.
+
+- Jonathan (using static analysis) discovered a functional bug that
+everyone else missed. I had enabled the `SCALE` bitmask for Activity
+(MAG) events, which created the sysfs files, but I failed to update the
+`read_event_value` function to actually handle that case. As a result,
+reading those files returns `-EINVAL`.
+
+- Jonathan advised me to "up my testing game," highlighting that I
+shouldn't have advertised a feature I hadn't verified in the code path.
+Which you know hurts, hurts cause I know I can do better :).
+
+- This day 02-15 was a big hit to me, and a reality check you could say,
+I'm going to take stuff slower right now. No need to rush patch series.
+I'll start spacing the series by at least 48h after the last reply I get,
+that time will be well spent learning more about the subsystem and it's
+history. I was going too fast and juggling too much, seriously from style
+rules to ABI, to DT schemas and core logic... Total overload, but I did
+learn many lessons in the way. The plan now it to not stop, but to slow
+down.
+
+# ad5504 v1 2026-02-15:
+- Received feedback from Jonathan Cameron regarding mailing list
+etiquette. He advised against sending separate "Thank you" emails to
+reviewers, as it increases the already high volume of mail for
+maintainers. Instead, gratitude should be expressed in the patch changelog
+(below the `---` line) or in the cover letter of the next version.
+
+- Jonathan also weighed in on the scale calculation logic.
+He suggested explicitly checking for valid values (30V vs 60V) rather than
+assuming one if the other isn't present, to protect against invalid DT
+properties.
+
+- Interestingly, my current local implementation already aligns with this:
+I defaulted to 60V and only switched to 30V if the property explicitly
+matched the 30V range. It's a good confidence boost to see my logic
+matching the maintainer's expectations before even sending the V2.
+
