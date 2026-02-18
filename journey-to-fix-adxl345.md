@@ -410,3 +410,9 @@ By providing a core-level mask, we move from 5 different manual implementations 
 ====> Jonathan Cameron answered and he approved the addition of IIO_EV_INFO_SCALE to the enum, Yaaaay hhhhhhh
 which means that the addition of available will be easier to argue for cause more drivers needs it. I'll wait
 until hopefully my V3 patches get approved.
+
+====> Not so fast my dear old me. I did a mistake of promising a feature that actually didn't work, I had a bug in
+my code, so the available logic should wait a bit before I can start it again, I need to build more knowledge
+of the subsystem first and gain experience to make better decisions regarding this big of a scale.
+
+===> Right now I must start with a re-assessment of my current adxl345 code and cleaning up my style.
