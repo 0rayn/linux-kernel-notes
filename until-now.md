@@ -152,3 +152,16 @@ I defaulted to 60V and only switched to 30V if the property explicitly
 matched the 30V range. It's a good confidence boost to see my logic
 matching the maintainer's expectations before even sending the V2.
 
+# adxl345 v4 2026-02-21:
+- I took 2 days rest, after that I started working on a dummy-iio driver
+where I did rewrite all the needed parts of the adxl345 into it, so I can
+check the actual output of my work, there I found that the names generated
+didn't match what me or the maintainers expected to be.
+
+- Used the new sysfs for the table and updated the docs to match the real
+output. I also did work on fixing the bug stated by Jonathan, and explicitly
+rejected writing to those files. And of course had to re-order the
+bitmasks.
+
+- Today I did send my v4 :)
+
