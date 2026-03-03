@@ -165,3 +165,61 @@ bitmasks.
 
 - Today I did send my v4 :)
 
+# adxl345 v4 2026-02-21:
+
+- David reply asking about the double tap scale sysfs I did make, that had
+no double tap value, that could be referring to it.
+
+- I did go over the driver and the datasheet one more time, and found that
+the actual value of the double tap, was already the same at the one you'll
+find in the single_tap sysfs. So I concluded that the driver didn't expose it
+to remove dublicated files that outputs the same thing. I was going to
+remove the scale I added. To keep everything as it was.
+
+- Jonathan did reply specifying that "The IIO ABI always allows any write to any
+channel property including event thresholds to change the value of a different
+one, so there is never a problem with duplication like this". So The plan now
+is to add a new sysfs file that exposes the double tap value as well.
+
+# adxl345 v5 2026-02-24:
+
+- I sent a v5 that added the double tap value, and added documentation for it
+as well. Also re-organized the patch series. And the made it a 5 patch series
+instead of 4.
+
+- Only Andy that did reply giving me some advice about making the patch cleaner
+and touch only what's necessary. As that makes the patch easier to review.
+
+- Also stated that the mentorship CC was debouncing, and advised me to remove it.
+
+- I did fix everything then reply to him just before sending a v6, where I
+explained about the mentorship and promised a v6 without the CC.
+
+# adxl345 v6 2026-02-26:
+
+- Did clean up my patches as Andy advised, and sent a V6.
+
+# adxl345 v6 2026-02-28:
+
+- Jonathan Cameron did reply stating that he added the patch into the testing
+branch, and after a few days of bots poking at it. He will push it out as
+togreg which is the branch linux-next picks up.
+
+- After Jonathan message by a few minutes David replied to me with a reviewed-by.
+
+# adxl345 v6 2026-03-01:
+
+- Jonathan updated to add David's tag on my work.
+
+# LFX mentorship 2026-03-01:
+
+- I received an email from Shuah Khan congratulating me that I've been one of the
+selected mentees for the spring mentorship starting from March 3rd to the 1st of
+September.
+
+- She stated that I have to chouse two areas of the linux kernel to work troward
+getting 5-10 patches in for the next 6 months. I'm taking the IIO subsystem for sure
+especially that my ad5504 driver work is looking now like a 5 patch series alone, For
+the other area I'm thinking of taking kselftest for many reasons, not only writing test
+for the kernel will make me a better kernel developer, it's also the subsystem Shuah
+maintains. I'll have a meeting with the actual maintainer each week :)
