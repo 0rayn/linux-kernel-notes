@@ -416,3 +416,6 @@ my code, so the available logic should wait a bit before I can start it again, I
 of the subsystem first and gain experience to make better decisions regarding this big of a scale.
 
 ===> Right now I must start with a re-assessment of my current adxl345 code and cleaning up my style.
+
+==> A lot has changed I did send a v5 fixing my problems, then a v6 that was all about clean-ups. now it's on the
+testing branch of IIO it's been there for a couple of days now, and no problems were flagged.
