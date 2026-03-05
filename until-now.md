@@ -223,3 +223,8 @@ especially that my ad5504 driver work is looking now like a 5 patch series alone
 the other area I'm thinking of taking kselftest for many reasons, not only writing test
 for the kernel will make me a better kernel developer, it's also the subsystem Shuah
 maintains. I'll have a meeting with the actual maintainer each week :)
+
+# adxl345 v6 2026-03-05:
+
+- I checked the linux-next using: git log -n 4 --grep="adxl345", and found my name there.
+Yeeeey
