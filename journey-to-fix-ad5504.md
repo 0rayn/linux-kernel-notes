@@ -26,8 +26,27 @@ redirect me to learn more about:
 
 => Compiling this will give the current tolearn list:
 	| | Read dt-schema.
+		|X| read writing-schema.rst
 	| | Read dac-schema.
 	| | Learning about vendor property vs standard property.
+		=> in writing-schema.rst "The exact schema syntax depends on
+		whether properties are known, common properties
+		(e.g. 'interrupts') or are binding/vendor-specific properties."
+		=> in the property schema section they discuss more about vendor
+		vs standard property, and how to work with them.
 	| | Learn more about allof and integrate it to the dt-binding.
 	| | Learning IWYU principle
-	
+
+==> While reading the docs:
+	- I need to add links to the datasheets in the description of the dt
+binding for the ad5504 and ad5501.
+	- need to read Documentation/devicetree/bindings/dts-coding-style.rst
+	- For testing schemas:
+	```
+	make dt_binding_check
+	make dtbs_check
+	# we can run both at one :)
+	make dt_binding_check dtbs_check
+	```
+```
+
