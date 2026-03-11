@@ -27,26 +27,54 @@ redirect me to learn more about:
 => Compiling this will give the current tolearn list:
 	| | Read dt-schema.
 		|X| read writing-schema.rst
-	| | Read dac-schema.
-	| | Learning about vendor property vs standard property.
+	|x| Read dac-schema.
+	|X| Learning about vendor property vs standard property.
 		=> in writing-schema.rst "The exact schema syntax depends on
 		whether properties are known, common properties
 		(e.g. 'interrupts') or are binding/vendor-specific properties."
 		=> in the property schema section they discuss more about vendor
 		vs standard property, and how to work with them.
-	| | Learn more about allof and integrate it to the dt-binding.
-	| | Learning IWYU principle
+	|X| Learn more about allof and integrate it to the dt-binding.
+	|X| Learning IWYU principle
 
 ==> While reading the docs:
 	- I need to add links to the datasheets in the description of the dt
 binding for the ad5504 and ad5501.
 	- need to read Documentation/devicetree/bindings/dts-coding-style.rst
+		- later :)
 	- For testing schemas:
 	```
 	make dt_binding_check
 	make dtbs_check
 	# we can run both at one :)
 	make dt_binding_check dtbs_check
+	# example:
+	make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/iio/dac/adi,ad5504.yaml
 	```
-```
+
+
+Based on the mailing list feedback from **Andy Shevchenko**, **Krzysztof Kozlowski**, and **Nuno Sá**, here is your comprehensive To-Do list for the next iteration of your AD5504 series.
+
+todo:
+* [ ] Drop incorrect Suggested-by tags.
+* [ ] Keep Reviewed-by tag.
+* [ ] Revert vcc-supply to optional.
+* [ ] Rename clear-gpios to clr-gpios.
+* [ ] Add context to commit messages.
+* [ ] Verify usage of linux/device.h
+* [ ] Drop linux/linux.h if not used.
+* [ ] Add missing headers.
+* [ ] Double-check the alphabetical order of headers
+* [ ] remove pdata 
+* [ ] Introduce the struct device pointer in it's own cleanup patch.
+* [ ] Restore -ENODEV check.
+* [ ] use ARRAY_SIZE()
+* [ ] Strict validation: ensuring both range[0] and range[1] are correct.
+* [ ] Satisfy "The Purpose"; Simply fetching the GPIOs isn't enough
+* [ ] Preserve "Reversed Xmas Tree".
+* [ ] Compile Test: make W=1 C=1 drivers/iio/dac/ad5504.ko
+* [ ] Binding check: make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/iio/dac/adi,ad5504.yaml
+* [ ] Hardware Test: Deploy in my rpi 5 and verify the scale math working
+	  via sysfs.
+
 
