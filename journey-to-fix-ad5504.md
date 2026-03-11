@@ -56,17 +56,17 @@ binding for the ad5504 and ad5501.
 Based on the mailing list feedback from **Andy Shevchenko**, **Krzysztof Kozlowski**, and **Nuno Sá**, here is your comprehensive To-Do list for the next iteration of your AD5504 series.
 
 todo:
-* [ ] Drop incorrect Suggested-by tags.
-* [ ] Keep Reviewed-by tag.
-* [ ] Revert vcc-supply to optional.
-* [ ] Rename clear-gpios to clr-gpios.
+* [x] Drop incorrect Suggested-by tags.
+* [x] Keep Reviewed-by tag.
+* [x] Revert vcc-supply to optional.
+* [x] Rename clear-gpios to clr-gpios.
 * [ ] Add context to commit messages.
-* [ ] Verify usage of linux/device.h
-* [ ] Drop linux/linux.h if not used.
-* [ ] Add missing headers.
+* [x] Verify usage of linux/device.h
+* [x] Drop linux/linux.h if not used.
+* [x] Add missing headers.
 * [ ] Double-check the alphabetical order of headers
-* [ ] remove pdata 
-* [ ] Introduce the struct device pointer in it's own cleanup patch.
+* [x] remove pdata 
+* [x] Introduce the struct device pointer in it's own cleanup patch.
 * [ ] Restore -ENODEV check.
 * [ ] use ARRAY_SIZE()
 * [ ] Strict validation: ensuring both range[0] and range[1] are correct.
