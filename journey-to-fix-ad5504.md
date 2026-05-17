@@ -60,21 +60,29 @@ todo:
 * [x] Keep Reviewed-by tag.
 * [x] Revert vcc-supply to optional.
 * [x] Rename clear-gpios to clr-gpios.
-* [ ] Add context to commit messages.
+* [x] Add context to commit messages.
 * [x] Verify usage of linux/device.h
 * [x] Drop linux/linux.h if not used.
 * [x] Add missing headers.
-* [ ] Double-check the alphabetical order of headers
+* [x] Double-check the alphabetical order of headers
 * [x] remove pdata 
 * [x] Introduce the struct device pointer in it's own cleanup patch.
-* [ ] Restore -ENODEV check.
-* [ ] use ARRAY_SIZE()
-* [ ] Strict validation: ensuring both range[0] and range[1] are correct.
-* [ ] Satisfy "The Purpose"; Simply fetching the GPIOs isn't enough
-* [ ] Preserve "Reversed Xmas Tree".
-* [ ] Compile Test: make W=1 C=1 drivers/iio/dac/ad5504.ko
-* [ ] Binding check: make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/iio/dac/adi,ad5504.yaml
-* [ ] Hardware Test: Deploy in my rpi 5 and verify the scale math working
+* [x] Restore -ENODEV check.
+* [x] use ARRAY_SIZE()
+* [x] Strict validation: ensuring both range[0] and range[1] are correct.
+* [x] Satisfy "The Purpose"; Simply fetching the GPIOs isn't enough => just removed this;
+* [x] Preserve "Reversed Xmas Tree".
+* [x] Compile Test: make W=1 C=1 drivers/iio/dac/ad5504.ko
+* [x] Binding check: make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/iio/dac/adi,ad5504.yaml
+* [x] Hardware Test: Deploy in my rpi 5 and verify the scale math working
 	  via sysfs.
 
+// well forgot to update many things but:
+finished that v3; had some problems:
+
+1- I had to remove pdata but wanted to give the replacement in the same patch so the driver keeps working
+correctly in all patches; but Jonathan told me to separate the patches;
+2- I did introduce ABI breaking by remove the read_volage; I should keep it so old drivers can have it;
+3- Sashiko bot did report a data race; found file ad5360 as an example of how to handle that; but how can I test this;
+4- David showed me a new way of handling ACPI devices; and give me file: ti-ads7950.c to learn how it's used;
 
