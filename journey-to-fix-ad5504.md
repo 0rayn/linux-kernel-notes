@@ -86,3 +86,13 @@ correctly in all patches; but Jonathan told me to separate the patches;
 3- Sashiko bot did report a data race; found file ad5360 as an example of how to handle that; but how can I test this;
 4- David showed me a new way of handling ACPI devices; and give me file: ti-ads7950.c to learn how it's used;
 
+
+
+let's learn more:
+ACPI: https://docs.kernel.org/firmware-guide/acpi/enumeration.html
+
+=> got 2 emails from jonathan he did apply 2 patches:
+1- re-ordering patches;
+2- introducing local dev pointer;
+
+=> he did go over the IWYU patch so I need to consider his feedback
