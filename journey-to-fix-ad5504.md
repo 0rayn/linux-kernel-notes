@@ -90,9 +90,20 @@ correctly in all patches; but Jonathan told me to separate the patches;
 
 let's learn more:
 ACPI: https://docs.kernel.org/firmware-guide/acpi/enumeration.html
+cleanup attribute:
+- https://lwn.net/Articles/934679/
+- https://omeranson.github.io/blog/2022/06/12/cleanup-attribute-in-C
 
 => got 2 emails from jonathan he did apply 2 patches:
 1- re-ordering patches;
 2- introducing local dev pointer;
 
 => he did go over the IWYU patch so I need to consider his feedback
+
+
+ so there are 3 types of locks:
+
+sleeping locks
+cpu local locks
+spinning locks
+
